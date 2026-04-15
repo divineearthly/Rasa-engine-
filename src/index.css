@@ -1,0 +1,53 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-serif: "Playfair Display", serif;
+  --font-sans: "DM Sans", sans-serif;
+  --color-rasa-bg: #fdf6ec;
+  --color-rasa-ink: #1a1108;
+  --color-rasa-gold: #c9922a;
+}
+
+@layer base {
+  body {
+    @apply bg-rasa-bg text-rasa-ink font-sans antialiased transition-colors duration-300;
+  }
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-serif;
+  }
+}
+
+@layer components {
+  .glass-card {
+    @apply bg-white/20 dark:bg-black/30 backdrop-blur-lg border border-white/30 dark:border-white/10 shadow-xl;
+  }
+
+  .gold-gradient {
+    @apply bg-gradient-to-br from-rasa-gold to-[#a67c21];
+  }
+
+  .mandala-rotate {
+    animation: rotate 120s linear infinite;
+  }
+
+  @keyframes rotate {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
+}
+
+.dark {
+  --color-rasa-bg: #0f0a05;
+  --color-rasa-ink: #fdf6ec;
+}
+
+.custom-scrollbar::-webkit-scrollbar {
+  width: 4px;
+}
+.custom-scrollbar::-webkit-scrollbar-track {
+  @apply bg-transparent;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  @apply bg-rasa-gold/20 rounded-full;
+}

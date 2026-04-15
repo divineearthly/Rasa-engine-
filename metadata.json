@@ -1,0 +1,6 @@
+{
+  "name": "Rasa & Reality",
+  "description": "Analyze text for emotional essence (Rasa) and factual hallucinations using Gemini AI.",
+  "requestFramePermissions": [],
+  "majorCapabilities": []
+}
