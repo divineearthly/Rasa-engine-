@@ -1,0 +1,207 @@
+openapi: 3.1.0
+info:
+  # Do not change the title, if the title changes, the import paths will be broken
+  title: Api
+  version: 0.1.0
+  description: API specification
+servers:
+  - url: /api
+    description: Base API path
+tags:
+  - name: health
+    description: Health operations
+  - name: rasa
+    description: Vedic Rasa analysis operations
+paths:
+  /healthz:
+    get:
+      operationId: healthCheck
+      tags: [health]
+      summary: Health check
+      description: Returns server health status
+      responses:
+        "200":
+          description: Healthy
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HealthStatus"
+  /rasa/analyze:
+    post:
+      operationId: analyzeRasa
+      tags: [rasa]
+      summary: Analyze text for Vedic Rasa and hallucination detection
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AnalyzeRasaBody"
+      responses:
+        "200":
+          description: Analysis result
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AnalysisResult"
+        "400":
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "500":
+          description: Server error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+  /rasa/history:
+    get:
+      operationId: getRasaHistory
+      tags: [rasa]
+      summary: Get analysis history
+      parameters:
+        - name: limit
+          in: query
+          required: false
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: List of past analyses
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/AnalysisRecord"
+  /rasa/history/{id}:
+    delete:
+      operationId: deleteRasaHistory
+      tags: [rasa]
+      summary: Delete a history entry
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "204":
+          description: Deleted
+        "404":
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+components:
+  schemas:
+    HealthStatus:
+      type: object
+      properties:
+        status:
+          type: string
+      required:
+        - status
+    AnalyzeRasaBody:
+      type: object
+      properties:
+        text:
+          type: string
+      required:
+        - text
+    RasaResult:
+      type: object
+      properties:
+        name:
+          type: string
+        confidence:
+          type: number
+        explanation:
+          type: string
+      required:
+        - name
+        - confidence
+        - explanation
+    HallucinationResult:
+      type: object
+      properties:
+        score:
+          type: number
+        severity:
+          type: string
+        problematic_statements:
+          type: array
+          items:
+            type: string
+      required:
+        - score
+        - severity
+        - problematic_statements
+    AnalysisResult:
+      type: object
+      properties:
+        rasa:
+          $ref: "#/components/schemas/RasaResult"
+        hallucination:
+          $ref: "#/components/schemas/HallucinationResult"
+        summary:
+          type: string
+        text:
+          type: string
+        timestamp:
+          type: number
+      required:
+        - rasa
+        - hallucination
+        - summary
+        - text
+        - timestamp
+    AnalysisRecord:
+      type: object
+      properties:
+        id:
+          type: integer
+        text:
+          type: string
+        rasa_name:
+          type: string
+        rasa_confidence:
+          type: number
+        rasa_explanation:
+          type: string
+        hallucination_score:
+          type: number
+        hallucination_severity:
+          type: string
+        hallucination_problematic_statements:
+          type: array
+          items:
+            type: string
+        summary:
+          type: string
+        timestamp:
+          type: number
+        created_at:
+          type: string
+      required:
+        - id
+        - text
+        - rasa_name
+        - rasa_confidence
+        - rasa_explanation
+        - hallucination_score
+        - hallucination_severity
+        - hallucination_problematic_statements
+        - summary
+        - timestamp
+        - created_at
+    ApiError:
+      type: object
+      properties:
+        error:
+          type: string
+      required:
+        - error

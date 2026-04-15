@@ -1,0 +1,145 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap');
+@import "tailwindcss";
+@import "tw-animate-css";
+
+@theme {
+  --font-serif: "Playfair Display", serif;
+  --font-sans: "DM Sans", sans-serif;
+
+  --color-rasa-bg: #fdf6ec;
+  --color-rasa-ink: #1a1108;
+  --color-rasa-gold: #c9922a;
+  --color-rasa-gold-light: #e8b84b;
+  --color-rasa-amber: #a67c21;
+  --color-rasa-paper: #f5ead6;
+
+  --background: var(--color-rasa-bg);
+  --foreground: var(--color-rasa-ink);
+  --border: rgba(201, 146, 42, 0.2);
+  --input: rgba(201, 146, 42, 0.3);
+  --ring: var(--color-rasa-gold);
+  --radius: 0.75rem;
+}
+
+@layer base {
+  * {
+    box-sizing: border-box;
+    border-color: rgba(201, 146, 42, 0.2);
+  }
+
+  body {
+    @apply bg-rasa-bg text-rasa-ink font-sans antialiased transition-colors duration-300;
+    background-attachment: fixed;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-serif;
+  }
+}
+
+@layer components {
+  .glass-card {
+    background: rgba(255, 255, 255, 0.18);
+    backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    box-shadow: 0 8px 32px rgba(201, 146, 42, 0.1);
+  }
+
+  .gold-gradient {
+    background: linear-gradient(135deg, #c9922a, #a67c21);
+  }
+
+  .mandala-rotate {
+    animation: mandala-spin 120s linear infinite;
+  }
+
+  @keyframes mandala-spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
+
+  .rasa-btn {
+    @apply px-6 py-3 rounded-xl font-semibold transition-all duration-200 cursor-pointer;
+  }
+
+  .rasa-btn-primary {
+    background: linear-gradient(135deg, #c9922a, #a67c21);
+    color: white;
+    box-shadow: 0 4px 15px rgba(201, 146, 42, 0.3);
+  }
+
+  .rasa-btn-primary:hover {
+    box-shadow: 0 6px 20px rgba(201, 146, 42, 0.4);
+    transform: translateY(-1px);
+  }
+
+  .rasa-btn-primary:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
+  }
+
+  .rasa-input {
+    width: 100%;
+    background: rgba(255, 255, 255, 0.5);
+    border: 1px solid rgba(201, 146, 42, 0.3);
+    border-radius: 12px;
+    padding: 16px;
+    font-family: "DM Sans", sans-serif;
+    font-size: 1rem;
+    color: #1a1108;
+    resize: vertical;
+    transition: all 0.2s;
+    outline: none;
+  }
+
+  .rasa-input:focus {
+    border-color: rgba(201, 146, 42, 0.6);
+    box-shadow: 0 0 0 3px rgba(201, 146, 42, 0.1);
+    background: rgba(255, 255, 255, 0.7);
+  }
+
+  .rasa-input::placeholder {
+    color: rgba(26, 17, 8, 0.4);
+  }
+}
+
+.dark body,
+.dark {
+  --color-rasa-bg: #0f0a05;
+  --color-rasa-ink: #fdf6ec;
+  background-color: #0f0a05;
+  color: #fdf6ec;
+}
+
+.dark .glass-card {
+  background: rgba(15, 10, 5, 0.5);
+  border-color: rgba(201, 146, 42, 0.2);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+}
+
+.dark .rasa-input {
+  background: rgba(15, 10, 5, 0.5);
+  border-color: rgba(201, 146, 42, 0.3);
+  color: #fdf6ec;
+}
+
+.dark .rasa-input:focus {
+  background: rgba(15, 10, 5, 0.7);
+  border-color: rgba(201, 146, 42, 0.5);
+}
+
+.dark .rasa-input::placeholder {
+  color: rgba(253, 246, 236, 0.35);
+}
+
+.custom-scrollbar::-webkit-scrollbar {
+  width: 4px;
+}
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: rgba(201, 146, 42, 0.3);
+  border-radius: 9999px;
+}
